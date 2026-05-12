@@ -1,6 +1,23 @@
 <?php include 'header.php'; ?>
 
 <style>
+    /* --- EFEITO 2: ANIMAÇÃO DE ENTRADA SUAVE --- */
+    @keyframes fadeIn {
+        from { 
+            opacity: 0; 
+            transform: translateY(20px); 
+        }
+        to { 
+            opacity: 1; 
+            transform: translateY(0); 
+        }
+    }
+
+    .sobre-section {
+        /* Garante que o fade-in funcione no container */
+        animation: fadeIn 0.8s ease-out forwards;
+    }
+
     /* Estilo Glassmorphism para os Cartões */
     .sobre-card-glass {
         background: rgba(255, 255, 255, 0.03) !important;
@@ -13,12 +30,46 @@
         flex: 1 1 300px;
         max-width: 350px;
         transition: all 0.4s ease !important;
+        
+        /* Prepara para a animação em cascata e efeito de brilho */
+        opacity: 0; 
+        animation: fadeIn 0.8s ease-out forwards;
+        position: relative;
+        overflow: hidden;
+    }
+
+    /* --- EFEITO 3: ENTRADA EM CASCATA (STAGGER) --- */
+    .sobre-card-glass:nth-child(1) { animation-delay: 0.1s; }
+    .sobre-card-glass:nth-child(2) { animation-delay: 0.2s; }
+    .sobre-card-glass:nth-child(3) { animation-delay: 0.3s; }
+    .sobre-card-glass:nth-child(4) { animation-delay: 0.4s; }
+    .sobre-card-glass:nth-child(5) { animation-delay: 0.5s; }
+
+    /* --- EFEITO DE BRILHO AO PASSAR O MOUSE --- */
+    .sobre-card-glass::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(
+            120deg,
+            transparent,
+            rgba(255, 255, 255, 0.1),
+            transparent
+        );
+        transition: all 0.6s;
+    }
+
+    .sobre-card-glass:hover::before {
+        left: 100%;
     }
 
     .sobre-card-glass:hover {
         transform: translateY(-10px);
         background: rgba(255, 255, 255, 0.07) !important;
-        border-color: var(--primary) !important;
+        border-color: #7da5fb !important;
         box-shadow: 0 15px 35px rgba(0, 0, 0, 0.5);
     }
 
@@ -28,24 +79,24 @@
         display: block;
     }
 
-    /* Botão com efeito Glow */
+    /* --- EFEITO 5: BOTÃO COM O TOM DE AZUL PEDIDO --- */
     .btn-glow {
         display: inline-flex;
         align-items: center;
         gap: 12px;
-        padding: 14px 35px;
-        background: var(--primary);
-        color: white;
-        text-decoration: underline;
+        padding: 14px 45px;
+        background: #7da5fb !important;
+        color: white !important;
+        text-decoration: underline !important;
         border-radius: 50px;
         font-weight: 600;
         transition: all 0.3s ease;
-        box-shadow: 0 0 15px rgba(37, 99, 235, 0.4);
+        box-shadow: 0 0 15px rgba(125, 165, 251, 0.4);
         border: none;
     }
 
     .btn-glow:hover {
-        box-shadow: 0 0 30px var(--primary);
+        box-shadow: 0 0 30px #7da5fb;
         transform: scale(1.05);
         color: #fff;
     }
