@@ -71,7 +71,7 @@
                 
                 <div class="sobre-card-glass">
                     <span class="sobre-icon-glass">👩🏻‍💻</span>
-                     <h3 style="color: #3498db; font-size: 1.5rem; font-weight: 800; margin-bottom: 10px;">Nome do Dev 1</h3>
+                     <h3 style="color: #7da5fb; font-size: 1.5rem; font-weight: 800; font-family: Verdana, sans-serif; margin-bottom: 10px;">Nome do Dev 1</h3>
                     <p class="muted" style="font-size: 0.85rem;">Especialidade 1</p>
                     <hr style="opacity: 0.1; margin: 15px 0;">
                     <p>Texto para a descrição das atividades do primeiro desenvolvedor.</p>
@@ -79,7 +79,7 @@
 
                 <div class="sobre-card-glass">
                     <span class="sobre-icon-glass">💻</span>
-                     <h3 style="color: #3498db; font-size: 1.5rem; font-weight: 800; margin-bottom: 10px;">Nome do Dev 2</h3>
+                     <h3 style="color: #7da5fb; font-size: 1.5rem; font-weight: 800; font-family: Verdana, sans-serif; margin-bottom: 10px;">Nome do Dev 2</h3>
                     <p class="muted" style="font-size: 0.85rem;">Especialidade 2</p>
                     <hr style="opacity: 0.1; margin: 15px 0;">
                     <p>Texto para a descrição das atividades do segundo desenvolvedor.</p>
@@ -87,7 +87,7 @@
 
                 <div class="sobre-card-glass">
                     <span class="sobre-icon-glass">🛡️</span>
-                     <h3 style="color: #3498db; font-size: 1.5rem; font-weight: 800; margin-bottom: 10px;">Nome do Dev 3</h3>
+                     <h3 style="color:#7da5fb; font-size: 1.5rem; font-weight: 800; font-family: Verdana, sans-serif; margin-bottom: 10px;">Nome do Dev 3</h3>
                     <p class="muted" style="font-size: 0.85rem;">Especialidade 3</p>
                     <hr style="opacity: 0.1; margin: 15px 0;">
                     <p>Texto para a descrição das atividades do terceiro desenvolvedor.</p>
@@ -95,7 +95,7 @@
 
                 <div class="sobre-card-glass">
                     <span class="sobre-icon-glass">🎨</span>
-                     <h3 style="color: #3498db; font-size: 1.5rem; font-weight: 800; margin-bottom: 10px;">Nome do Dev 4</h3>
+                     <h3 style="color: #7da5fb; font-size: 1.5rem; font-weight: 800; font-family: Verdana, sans-serif; margin-bottom: 10px;">Nome do Dev 4</h3>
                     <p class="muted" style="font-size: 0.85rem;">Especialidade 4</p>
                     <hr style="opacity: 0.1; margin: 15px 0;">
                     <p>Texto para a descrição das atividades do quarto desenvolvedor.</p>
@@ -103,7 +103,7 @@
 
                <div class="sobre-card-glass">
                     <span class="sobre-icon-glass">🔨</span>
-                     <h3 style="color: #3498db; font-size: 1.5rem; font-weight: 800; margin-bottom: 10px;">Nome do Dev 5</h3>
+                     <h3 style="color: #7da5fb; font-size: 1.5rem; font-weight: 800; font-family: Verdana, sans-serif; margin-bottom: 10px;">Nome do Dev 5</h3>
                     <p class="muted" style="font-size: 0.85rem;">Especialidade 5</p>
                     <hr style="opacity: 0.1; margin: 15px 0;">
                     <p>Texto para a descrição das atividades do quinto desenvolvedor.</p>
