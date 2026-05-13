@@ -177,10 +177,10 @@
                 
                 <div class="sobre-card-glass">
                     <span class="sobre-icon-glass">👩🏻‍💻</span>
-                    <h3 class="dev-nome">Nome do Dev 1</h3>
+                    <h3 class="dev-nome">Maria Eduarda Sousa</h3>
                     <p class="muted" style="font-size: 0.85rem;">Especialidade 1</p>
                     <hr style="opacity: 0.1; margin: 15px 0;">
-                    <p style="line-height: 1.6;">Texto para a descrição das atividades do primeiro desenvolvedor.</p>
+                    <p style="line-height: 1.6;">0001140856@senaimgaluno.com.br <br> maduszrodrig@gmail.com</p>
                     <a href="https://github.com/arlebiina" target="_blank" class="github-link">
                         <i class="fab fa-github"></i>
                     </a>
@@ -188,10 +188,10 @@
 
                 <div class="sobre-card-glass">
                     <span class="sobre-icon-glass">💻</span>
-                    <h3 class="dev-nome">Nome do Dev 2</h3>
+                    <h3 class="dev-nome">Maria Laura Leal</h3>
                     <p class="muted" style="font-size: 0.85rem;">Especialidade 2</p>
                     <hr style="opacity: 0.1; margin: 15px 0;">
-                    <p style="line-height: 1.6;">Texto para a descrição das atividades do segundo desenvolvedor.</p>
+                    <p style="line-height: 1.6;">0001139340@senaimgaluno.com.br <br> marialaura123fernandes@gmail.com</p>
                     <a href="https://github.com/marialaura123fernandes-lgtm" target="_blank" class="github-link">
                         <i class="fab fa-github"></i>
                     </a>
@@ -199,7 +199,7 @@
 
                 <div class="sobre-card-glass">
                     <span class="sobre-icon-glass">🛡️</span>
-                    <h3 class="dev-nome">Nome do Dev 3</h3>
+                    <h3 class="dev-nome">Izadora Peres</h3>
                     <p class="muted" style="font-size: 0.85rem;">Especialidade 3</p>
                     <hr style="opacity: 0.1; margin: 15px 0;">
                     <p style="line-height: 1.6;">Texto para a descrição das atividades do terceiro desenvolvedor.</p>
@@ -210,7 +210,7 @@
 
                 <div class="sobre-card-glass">
                     <span class="sobre-icon-glass">🎨</span>
-                    <h3 class="dev-nome">Nome do Dev 4</h3>
+                    <h3 class="dev-nome">Izabella Peres</h3>
                     <p class="muted" style="font-size: 0.85rem;">Especialidade 4</p>
                     <hr style="opacity: 0.1; margin: 15px 0;">
                     <p style="line-height: 1.6;">Texto para a descrição das atividades do quarto desenvolvedor.</p>
@@ -221,7 +221,7 @@
 
                <div class="sobre-card-glass">
                     <span class="sobre-icon-glass">🔨</span>
-                    <h3 class="dev-nome">Nome do Dev 5</h3>
+                    <h3 class="dev-nome">Luis Felipe Oliveira</h3>
                     <p class="muted" style="font-size: 0.85rem;">Especialidade 5</p>
                     <hr style="opacity: 0.1; margin: 15px 0;">
                     <p style="line-height: 1.6;">Texto para a descrição das atividades do quinto desenvolvedor.</p>
