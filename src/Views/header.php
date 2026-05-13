@@ -4,6 +4,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Trackfix • Oficina</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <link rel="stylesheet" href="css/style_trackfix.css?v=<?php echo time(); ?>">
 </head>
 <body class="<?php echo (isset($_COOKIE['sidebarStatus']) && $_COOKIE['sidebarStatus'] === 'active') ? 'menu-open-body' : ''; ?>">
@@ -54,7 +55,7 @@
         <hr style="opacity: 0.1; margin: 10px 0;">
        
         <a href="?rota=search" class="navlink <?php isActive('search', $current); ?>">🧰 <span>Pesquisa</span></a>
-         <a href="?rota=rastreio" class="navlink <?php isActive('rastreio', $current); ?>">🗺️ <span>Rastrear Item</span></a>
+        <a href="?rota=rastreio" class="navlink <?php isActive('rastreio', $current); ?>">🗺️ <span>Rastrear Item</span></a>
         <a href="?rota=manutencao" class="navlink <?php isActive('manutencao', $current); ?>">📅 <span>Agenda de Manutenção</span></a>
         <a href="?rota=tool-manager" class="navlink <?php isActive('tool-manager', $current); ?>">🛠️ <span>Gerenciar Ferramentas</span></a>
        
@@ -62,8 +63,5 @@
 
         <a href="?rota=profile" class="navlink <?php isActive('profile', $current); ?>">👤 <span>Perfil do Usuário</span></a>
         <a href="?rota=config" class="navlink <?php isActive('config', $current); ?>">⚙️ <span>Configurações</span></a>
-        
         <a href="?rota=desenvolvedores" class="navlink <?php isActive('desenvolvedores', $current); ?>">🧑‍💻 <span>Desenvolvedores</span></a>
-        
-        
     </aside>
