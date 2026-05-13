@@ -1,7 +1,7 @@
 <?php include 'header.php'; ?>
 
 <style>
-    /* --- EFEITO 2: ANIMAÇÃO DE ENTRADA SUAVE --- */
+    /* --- EFEITO: ANIMAÇÃO DE ENTRADA SUAVE --- */
     @keyframes fadeIn {
         from { 
             opacity: 0; 
@@ -38,7 +38,7 @@
         overflow: hidden;
     }
 
-    /* --- EFEITO 3: ENTRADA EM CASCATA (STAGGER) --- */
+    /* --- EFEITO: ENTRADA EM CASCATA (STAGGER) --- */
     .sobre-card-glass:nth-child(1) { animation-delay: 0.1s; }
     .sobre-card-glass:nth-child(2) { animation-delay: 0.2s; }
     .sobre-card-glass:nth-child(3) { animation-delay: 0.3s; }
@@ -79,7 +79,7 @@
         display: block;
     }
 
-    /* --- EFEITO 5: BOTÃO COM O TOM DE AZUL PEDIDO --- */
+    /* --- EFEITO 5: BOTÃO GLOW COM O TOM DE AZUL --- */
     .btn-glow {
         display: inline-flex;
         align-items: center;
