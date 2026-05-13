@@ -10,9 +10,8 @@ document.addEventListener('DOMContentLoaded', () => {
     const layout = $('.layout');
 
     if (toggleMenu && sidebar && layout) {
-        // Recupera o estado salvo na memória
         const menuState = localStorage.getItem('sidebarOpen');
-       
+        
         if (menuState === 'true') {
             sidebar.classList.add('open');
             layout.classList.add('menu-open');
@@ -21,36 +20,25 @@ document.addEventListener('DOMContentLoaded', () => {
         toggleMenu.onclick = () => {
             sidebar.classList.toggle('open');
             layout.classList.toggle('menu-open');
-
-            // Salva o novo estado
             const isOpen = sidebar.classList.contains('open');
             localStorage.setItem('sidebarOpen', isOpen);
         };
     }
 
     // ==========================================
-    // 2. MODO CLARO (body.light)
+    // 2. TEMAS (Claro / Escuro / Contraste)
     // ==========================================
     const btnTheme = $('#toggleTheme');
+    const btnContrast = $('#toggleContrast');
    
-    if (localStorage.getItem('theme') === 'light') {
-        document.body.classList.add('light');
-    }
+    if (localStorage.getItem('theme') === 'light') document.body.classList.add('light');
+    if (localStorage.getItem('contrast') === 'true') document.body.classList.add('high-contrast');
 
     if (btnTheme) {
         btnTheme.onclick = () => {
             const isLight = document.body.classList.toggle('light');
             localStorage.setItem('theme', isLight ? 'light' : 'dark');
         };
-    }
-
-    // ==========================================
-    // 3. ALTO CONTRASTE (.high-contrast)
-    // ==========================================
-    const btnContrast = $('#toggleContrast');
-
-    if (localStorage.getItem('contrast') === 'true') {
-        document.body.classList.add('high-contrast');
     }
 
     if (btnContrast) {
@@ -61,7 +49,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // ==========================================
-    // 4. PESQUISA DE FERRAMENTAS
+    // 3. PESQUISA DE FERRAMENTAS
     // ==========================================
     const ferramentas = [
         { id: 'QR-1001', nome: 'Paquímetro Digital', cat: 'Medição', local: 'Armário A', status: 'Disponível' },
@@ -75,7 +63,6 @@ document.addEventListener('DOMContentLoaded', () => {
         const cat = $('#fCategoria')?.value || 'Todos';
         const status = $('#fStatus')?.value || 'Todos';
         const tbody = $('#toolRows');
-        const count = $('#resultCount');
 
         if (!tbody) return;
 
@@ -92,34 +79,99 @@ document.addEventListener('DOMContentLoaded', () => {
                 <td>${f.cat}</td>
                 <td>${f.local}</td>
                 <td><span class="badge ${f.status === 'Disponível' ? 'ok' : f.status === 'Em manutenção' ? 'danger' : 'warn'}">${f.status}</span></td>
-                <td><button class="btn-ghost" onclick="window.toast('Abrindo detalhes de ${f.id}')">⚙️</button></td>
+                <td><button class="btn-ghost" onclick="window.toast('Detalhes de ${f.id}', 'info')">⚙️</button></td>
             </tr>
         `).join('');
-
-        if (count) count.textContent = filtrados.length;
     }
 
-    // Ativa eventos de digitação
     document.addEventListener('input', (e) => {
-        if (['searchInput', 'fCategoria', 'fStatus'].includes(e.target.id)) {
-            filtrarFerramentas();
-        }
+        if (['searchInput', 'fCategoria', 'fStatus'].includes(e.target.id)) filtrarFerramentas();
     });
 
-    // Inicializa se estiver na página de pesquisa
-    if ($('#toolRows')) {
-        filtrarFerramentas();
-    }
+    if ($('#toolRows')) filtrarFerramentas();
 
     // ==========================================
-    // 5. NOTIFICAÇÕES (Toast)
+    // 4. SISTEMA DE NOTIFICAÇÕES (Toast Premium)
     // ==========================================
-    window.toast = (msg) => {
-        const t = $('#toast');
-        if (t) {
-            t.textContent = msg;
-            t.classList.add('show');
-            setTimeout(() => t.classList.remove('show'), 3000);
+    window.toast = (msg, tipo = 'info') => {
+        let container = document.getElementById('toast-container');
+        if (!container) {
+            container = document.createElement('div');
+            container.id = 'toast-container';
+            document.body.appendChild(container);
         }
+
+        const toast = document.createElement('div');
+        toast.className = `custom-toast ${tipo}`;
+        
+        let icone = 'ℹ️';
+        if(tipo === 'success') icone = '✅';
+        if(tipo === 'error')   icone = '⚠️';
+        if(tipo === 'warn')    icone = '🔔';
+
+        toast.innerHTML = `
+            <span style="font-size: 1.2rem;">${icone}</span>
+            <span style="font-size: 0.9rem; font-weight: 500;">${msg}</span>
+        `;
+
+        container.appendChild(toast);
+
+        // Remove após 4 segundos
+        setTimeout(() => {
+            toast.classList.add('toast-fade-out');
+            setTimeout(() => toast.remove(), 500);
+        }, 4000);
     };
+
+    // ==========================================
+    // 5. BUSCA DE CEP AUTOMÁTICA
+    // ==========================================
+    const inputCep = document.getElementById('cep');
+    if (inputCep) {
+        inputCep.addEventListener('blur', function() {
+            let cep = this.value.replace(/\D/g, '');
+            if (cep.length === 8) {
+                window.toast("Buscando endereço...", "info");
+                fetch(`https://viacep.com.br/ws/${cep}/json/`)
+                    .then(res => res.json())
+                    .then(dados => {
+                        if (!("erro" in dados)) {
+                            document.getElementById('logradouro').value = dados.logradouro;
+                            document.getElementById('bairro').value = dados.bairro;
+                            document.getElementById('cidade').value = dados.localidade;
+                            document.getElementById('uf').value = dados.uf;
+                            window.toast("Endereço preenchido!", "success");
+                            document.getElementsByName('numero')[0]?.focus();
+                        } else {
+                            window.toast("CEP não encontrado.", "error");
+                        }
+                    })
+                    .catch(() => window.toast("Erro na conexão com ViaCEP", "error"));
+            }
+        });
+    }
 });
+
+// ==========================================
+// 6. RASTREIO DE EQUIPAMENTOS
+// ==========================================
+function buscarRastreio() {
+    const idItem = document.getElementById('os-number')?.value;
+    if(!idItem) return window.toast("Digite o ID do item", "warn");
+
+    fetch(`buscar_rastreio.php?id_item=${idItem}`)
+        .then(response => response.json())
+        .then(data => {
+            if(data.error) {
+                window.toast(data.error, "error");
+            } else {
+                window.toast("Informações carregadas!", "success");
+                document.getElementById('resultado-rastreio').style.display = 'block';
+                document.getElementById('nome-equipamento').innerText = data.equipamento;
+                document.getElementById('status-atual').innerText = data.status;
+                document.getElementById('local-atual').innerText = "Localização: " + data.nome_local;
+                // atualizarBarraProgresso(data.status); // Adicione se tiver essa função
+            }
+        })
+        .catch(() => window.toast("Erro ao buscar dados", "error"));
+}
