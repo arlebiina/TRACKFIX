@@ -54,6 +54,7 @@
         <hr style="opacity: 0.1; margin: 10px 0;">
        
         <a href="?rota=search" class="navlink <?php isActive('search', $current); ?>">🧰 <span>Pesquisa</span></a>
+         <a href="?rota=rastreio" class="navlink <?php isActive('rastreio', $current); ?>">🗺️ <span>Rastrear Item</span></a>
         <a href="?rota=manutencao" class="navlink <?php isActive('manutencao', $current); ?>">📅 <span>Agenda de Manutenção</span></a>
         <a href="?rota=tool-manager" class="navlink <?php isActive('tool-manager', $current); ?>">🛠️ <span>Gerenciar Ferramentas</span></a>
        
