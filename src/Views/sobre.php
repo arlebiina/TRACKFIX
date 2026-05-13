@@ -12,13 +12,13 @@
             </div>
 
             <div class="sobre-card">
-                <span class="sobre-icon">👁️</span>
+                <span class="sobre-icon">🎯</span>
                 <h3>Visão</h3>
                 <p>Ser a plataforma líder global em gestão de ferramentas, reconhecida pela interface intuitiva e tecnologia que antecipa necessidades.</p>
             </div>
 
             <div class="sobre-card">
-                <span class="sobre-icon">🛡️</span>
+                <span class="sobre-icon">⚖️</span>
                 <h3>Valores</h3>
                 <p>Segurança absoluta, transparência total nos dados e um compromisso inabalável com a simplicidade e a eficiência do usuário.</p>
             </div>
