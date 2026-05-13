@@ -51,7 +51,7 @@ switch ($rota) {
                 $stmt = $pdo->prepare("SELECT * FROM usuarios WHERE email = ?");
                 $stmt->execute([$email]);
                 $user = $stmt->fetch(PDO::FETCH_ASSOC);
-                // IMPORTANTE: Adicionei o tipo_id na sessão para facilitar permissões futuras
+                
                 if ($user && password_verify($senha, $user['senha'])) {
                     $_SESSION['usuario_id'] = $user['id'];
                     $_SESSION['usuario_nome'] = $user['primeiro_nome'];
@@ -85,8 +85,6 @@ switch ($rota) {
         include $baseDir . '/src/Views/search.php';
         break;
 
-    /* --- NOVAS ROTAS ADICIONADAS ABAIXO --- */
-
     case 'rastreio':
         include $baseDir . '/src/Views/rastreio.php';
         break;
@@ -96,7 +94,6 @@ switch ($rota) {
         break;
 
     case 'manutencao':
-        // Aqui buscamos os dados para a agenda não dar erro de "variável indefinida"
         try {
             $stmt_m = $pdo->query("SELECT * FROM historico_manutencao ORDER BY data_manutencao DESC");
             $manutencoes = $stmt_m->fetchAll(PDO::FETCH_ASSOC);
@@ -109,8 +106,62 @@ switch ($rota) {
     case 'processar-ferramenta':
         include $baseDir . '/src/Views/processar_ferramenta.php';
         break;
+        
+    case 'empresas':
+        include $baseDir . '/src/Views/empresas.php';
+        break;
 
-    /* --- FIM DAS NOVAS ROTAS --- */
+    case 'processar-empresa':
+        $acao = $_GET['acao'] ?? '';
+        
+        if ($acao === 'cadastrar_completo' && $_SERVER['REQUEST_METHOD'] === 'POST') {
+            
+            // --- TRAVA DE SEGURANÇA: VERIFICA SE O USUÁRIO JÁ TEM EMPRESA ---
+            $stmtCheck = $pdo->prepare("SELECT empresa_id FROM usuarios WHERE id = ?");
+            $stmtCheck->execute([$_SESSION['usuario_id']]);
+            $userCheck = $stmtCheck->fetch();
+
+            if (!empty($userCheck['empresa_id'])) {
+                echo "<script>alert('Atenção: Você já possui uma unidade cadastrada em sua conta!'); window.location.href='index.php?rota=profile';</script>";
+                exit();
+            }
+            // --- FIM DA TRAVA ---
+
+            try {
+                $pdo->beginTransaction();
+
+                // 1. Inserir o Endereço
+                $sqlEnd = "INSERT INTO endereco (cep, estado, cidade, bairro, logradouro, numero) VALUES (?, ?, ?, ?, ?, ?)";
+                $stmtEnd = $pdo->prepare($sqlEnd);
+                $stmtEnd->execute([
+                    $_POST['cep'], $_POST['estado'], $_POST['cidade'], 
+                    $_POST['bairro'], $_POST['logradouro'], $_POST['numero']
+                ]);
+                $endereco_id = $pdo->lastInsertId();
+
+                // 2. Inserir a Empresa usando o ID do endereço
+                $sqlEmp = "INSERT INTO empresas (razao_social, endereco_id) VALUES (?, ?)";
+                $stmtEmp = $pdo->prepare($sqlEmp);
+                $stmtEmp->execute([$_POST['razao_social'], $endereco_id]);
+                $empresa_id = $pdo->lastInsertId();
+
+                // 3. Vincular o usuário logado à empresa
+                if (isset($_SESSION['usuario_id'])) {
+                    $sqlUser = "UPDATE usuarios SET empresa_id = ? WHERE id = ?";
+                    $pdo->prepare($sqlUser)->execute([$empresa_id, $_SESSION['usuario_id']]);
+                    $_SESSION['usuario_empresa_id'] = $empresa_id; 
+                }
+
+                $pdo->commit();
+                header("Location: index.php?rota=profile&msg=empresa_vinculada");
+                exit();
+
+            } catch (Exception $e) {
+                $pdo->rollBack();
+                die("Erro ao cadastrar: " . $e->getMessage());
+            }
+        }
+        break;
 
     default:
         include $baseDir . '/src/Views/login.php';
