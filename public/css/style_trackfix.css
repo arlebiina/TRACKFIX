@@ -1057,3 +1057,42 @@ body.menu-open-body .layout {
 @keyframes toastFadeOut {
     to { opacity: 0; transform: translateY(-20px); }
 }
+
+/* EFEITO DE BRILHO GLOBAL TRACKFIX */
+
+/* 1. Base para todos os elementos clicáveis */
+button, 
+.btn, 
+.btn-ghost, 
+.navlink, 
+input[type="submit"], 
+input[type="button"],
+.actions .btn-ghost {
+    transition: all 0.3s ease !important; /* Suaviza a transição do brilho */
+    position: relative;
+    outline: none;
+}
+
+/* 2. O efeito ao passar o mouse (Hover) */
+button:hover, 
+.btn:hover, 
+.btn-ghost:hover, 
+.navlink:hover, 
+input[type="submit"]:hover,
+.actions .btn-ghost:hover {
+    transform: translateY(-2px); /* Leve pulinho para cima */
+    box-shadow: 0 0 15px rgba(125, 165, 251, 0.5); /* Brilho azul suave */
+    filter: brightness(1.2); /* Dá mais vida à cor do botão */
+    cursor: pointer;
+}
+
+/* 3. Ajuste específico para o Botão de Sair (Brilho Vermelho) */
+a[href="?rota=logout"]:hover {
+    box-shadow: 0 0 15px rgba(255, 92, 124, 0.5) !important;
+    filter: brightness(1.2);
+}
+
+/* 4. Ajuste para o botão de "Voltar ao Sistema" ou botões grandes */
+.btn-primary:hover, .btn-submit:hover {
+    box-shadow: 0 0 25px rgba(125, 165, 251, 0.7) !important;
+}
