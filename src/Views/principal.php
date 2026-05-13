@@ -29,9 +29,6 @@
             </div>
             <div class="card-body">
                 <div class="status-item mb-2">
-                    <strong>Versão:</strong> <span class="badge" style="background: #3b82f6;">1.0.2-Beta</span>
-                </div>
-                <div class="status-item mb-2">
                     <strong>Ambiente:</strong> <span class="text-success">Produção</span>
                 </div>
                 <div class="status-item">
