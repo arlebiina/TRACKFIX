@@ -7,7 +7,7 @@ if (!isset($_SESSION['usuario_id'])) {
 $usuario_id = $_SESSION['usuario_id'];
 $mensagem = "";
 
-// Lógica de Salvamento (Blindada)
+// Lógica de Salvamento
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['btn_salvar'])) {
     try {
         $stmt_up = $pdo->prepare("UPDATE usuarios SET primeiro_nome = ?, sobrenome = ?, email = ? WHERE id = ?");
@@ -19,12 +19,17 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['btn_salvar'])) {
     }
 }
 
-// Busca dados atuais
-$stmt = $pdo->prepare("SELECT * FROM usuarios WHERE id = ?");
+// BUSCA DADOS ATUALIZADOS + EMPRESA + ENDEREÇO (JOIN)
+$sql = "SELECT u.*, e.razao_social, end.logradouro, end.numero, end.cidade, end.estado 
+        FROM usuarios u
+        LEFT JOIN empresas e ON u.empresa_id = e.id
+        LEFT JOIN endereco end ON e.endereco_id = end.id
+        WHERE u.id = ?";
+
+$stmt = $pdo->prepare($sql);
 $stmt->execute([$usuario_id]);
 $user = $stmt->fetch(PDO::FETCH_ASSOC) ?: [];
 
-// Busca histórico geral (para não dar erro de coluna inexistente)
 $historico = [];
 try {
     $stmt_h = $pdo->query("SELECT item_do_inventario, data_manutencao FROM historico_manutencao ORDER BY id DESC LIMIT 4");
@@ -39,7 +44,7 @@ include 'header.php';
 <main class="layout">
     <div class="perfil-header">
         <h2 class="sobre-titulo" style="text-align: left; margin-bottom: 10px;">Meu Perfil</h2>
-        <p class="muted">Gerencie suas informações e visualize suas atividades recentes.</p>
+        <p class="muted">Gerencie suas informações e sua unidade vinculada.</p>
         <div style="margin-top: 15px;"><?= $mensagem ?></div>
     </div>
 
@@ -65,18 +70,22 @@ include 'header.php';
         </section>
 
         <section class="card-perfil-v3">
-            <div class="sobre-icon">📜</div>
-            <h3>Atividades Recentes em Manutenção </h3>
-            <div class="historico-container">
-                <?php if (empty($historico)): ?>
-                    <p class="muted">Nenhuma atividade encontrada.</p>
+            <div class="sobre-icon">🏢</div>
+            <h3>Minha Unidade</h3>
+            <div class="historico-container" style="text-align: left;">
+                <?php if (!empty($user['razao_social'])): ?>
+                    <div class="item-hist" style="border-left: 3px solid #7da5fb; padding-left: 15px;">
+                        <p style="color: #fff; font-weight: bold; font-size: 1.1rem; margin-bottom: 5px;">
+                            <?= htmlspecialchars($user['razao_social']) ?>
+                        </p>
+                        <p class="muted" style="font-size: 0.9rem;">
+                            📍 <?= htmlspecialchars($user['logradouro']) ?>, <?= htmlspecialchars($user['numero']) ?><br>
+                            <?= htmlspecialchars($user['cidade']) ?> - <?= htmlspecialchars($user['estado']) ?>
+                        </p>
+                    </div>
                 <?php else: ?>
-                    <?php foreach ($historico as $h): ?>
-                        <div class="item-hist">
-                            <span class="badge" style="font-size: 10px;"><?= !empty($h['data_manutencao']) ? date('d/m/Y', strtotime($h['data_manutencao'])) : '--/--/--' ?></span>
-                            <div style="margin-top: 5px; font-weight: 600;"><?= htmlspecialchars($h['item_do_inventario']) ?></div>
-                        </div>
-                    <?php endforeach; ?>
+                    <p class="muted">Você ainda não possui uma empresa vinculada.</p>
+                    <a href="index.php?rota=empresas" class="btn-glow" style="display:inline-block; margin-top: 10px; padding: 10px 20px; text-decoration: none; font-size: 0.8rem;">Vincular Agora</a>
                 <?php endif; ?>
             </div>
         </section>
@@ -87,7 +96,7 @@ include 'header.php';
             <div class="badge-cargo" style="background: var(--primary); margin: 20px 0;"><?= $cargo_txt ?></div>
             <p class="muted" style="font-size: 12px;">ID do Usuário: #<?= $user['id'] ?? '0' ?></p>
             <hr style="border: 0; border-top: 1px solid rgba(255,255,255,0.05); margin: 20px 0; width: 100%;">
-            <p class="muted">Sua conta está ativa e sincronizada com o banco de dados.</p>
+            <p class="muted">Conta sincronizada com TrackFix Cloud.</p>
         </section>
     </div>
 </main>
