@@ -47,6 +47,7 @@
             function isActive($route, $current) { echo ($route === $current) ? 'active' : ''; }
         ?>
 
+        <a href="?rota=empresas" class="navlink <?php isActive('empresas', $current); ?>">🏢  <span>Cadastrar empresa</span></a>
         <a href="?rota=login" class="navlink <?php isActive('login', $current); ?>">🔒 <span>Login & Cadastro</span></a>
         <a href="?rota=sobre" class="navlink <?php isActive('sobre', $current); ?>">🏷️ <span>Sobre Nós</span></a>
         <a href="?rota=politica" class="navlink <?php isActive('politica', $current); ?>">🛡️ <span>Política de Privacidade</span></a>
