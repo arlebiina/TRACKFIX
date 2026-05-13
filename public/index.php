@@ -51,9 +51,11 @@ switch ($rota) {
                 $stmt = $pdo->prepare("SELECT * FROM usuarios WHERE email = ?");
                 $stmt->execute([$email]);
                 $user = $stmt->fetch(PDO::FETCH_ASSOC);
+                // IMPORTANTE: Adicionei o tipo_id na sessão para facilitar permissões futuras
                 if ($user && password_verify($senha, $user['senha'])) {
                     $_SESSION['usuario_id'] = $user['id'];
                     $_SESSION['usuario_nome'] = $user['primeiro_nome'];
+                    $_SESSION['tipo_id'] = $user['tipo_id']; 
                     header("Location: ?rota=profile");
                     exit();
                 } else {
@@ -82,10 +84,33 @@ switch ($rota) {
     case 'search':
         include $baseDir . '/src/Views/search.php';
         break;
-        
-        case 'rastreio':
-    include __DIR__ . '/../src/Views/rastreio.php';
-    break;
+
+    /* --- NOVAS ROTAS ADICIONADAS ABAIXO --- */
+
+    case 'rastreio':
+        include $baseDir . '/src/Views/rastreio.php';
+        break;
+
+    case 'tool-manager':
+        include $baseDir . '/src/Views/tool-manager.php';
+        break;
+
+    case 'manutencao':
+        // Aqui buscamos os dados para a agenda não dar erro de "variável indefinida"
+        try {
+            $stmt_m = $pdo->query("SELECT * FROM historico_manutencao ORDER BY data_manutencao DESC");
+            $manutencoes = $stmt_m->fetchAll(PDO::FETCH_ASSOC);
+        } catch (Exception $e) {
+            $manutencoes = [];
+        }
+        include $baseDir . '/src/Views/manutencao.php';
+        break;
+
+    case 'processar-ferramenta':
+        include $baseDir . '/src/Views/processar_ferramenta.php';
+        break;
+
+    /* --- FIM DAS NOVAS ROTAS --- */
 
     default:
         include $baseDir . '/src/Views/login.php';
