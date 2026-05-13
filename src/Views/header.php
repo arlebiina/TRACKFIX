@@ -15,7 +15,7 @@
             <div class="logo"></div>
             <div>
                 <div style="font-size:16px">Oficina • <span class="badge ok">Gestão</span></div>
-                <small class="muted">Estoque & Rastreamento</small>
+                <small class="muted">TrackFix</small>
             </div>
         </div>
        
