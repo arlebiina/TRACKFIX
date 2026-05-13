@@ -82,6 +82,10 @@ switch ($rota) {
     case 'search':
         include $baseDir . '/src/Views/search.php';
         break;
+        
+        case 'rastreio':
+    include __DIR__ . '/../src/Views/rastreio.php';
+    break;
 
     default:
         include $baseDir . '/src/Views/login.php';
