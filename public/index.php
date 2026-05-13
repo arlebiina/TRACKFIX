@@ -59,7 +59,12 @@ switch ($rota) {
                     header("Location: ?rota=profile");
                     exit();
                 } else {
-                    echo "<script>alert('E-mail ou senha incorretos!'); window.history.back();</script>";
+                    // LOGIN INCORRETO COM TOAST
+                    echo "<html><body>";
+                    include $baseDir . '/src/Views/login.php';
+                    echo "<script>window.onload = () => window.toast('E-mail ou senha incorretos!', 'error');</script>";
+                    echo "</body></html>";
+                    exit();
                 }
             } catch (PDOException $e) {
                 die("Erro técnico: " . $e->getMessage());
@@ -75,6 +80,10 @@ switch ($rota) {
 
     case 'profile':
         include $baseDir . '/src/Views/profile.php';
+        // Caso venha de um redirecionamento de sucesso
+        if(isset($_GET['msg']) && $_GET['msg'] === 'empresa_vinculada'){
+            echo "<script>window.onload = () => window.toast('Unidade vinculada com sucesso!', 'success');</script>";
+        }
         break;
 
     case 'config':
@@ -116,16 +125,16 @@ switch ($rota) {
         
         if ($acao === 'cadastrar_completo' && $_SERVER['REQUEST_METHOD'] === 'POST') {
             
-            // --- TRAVA DE SEGURANÇA: VERIFICA SE O USUÁRIO JÁ TEM EMPRESA ---
+            // TRAVA DE SEGURANÇA COM TOAST
             $stmtCheck = $pdo->prepare("SELECT empresa_id FROM usuarios WHERE id = ?");
             $stmtCheck->execute([$_SESSION['usuario_id']]);
             $userCheck = $stmtCheck->fetch();
 
             if (!empty($userCheck['empresa_id'])) {
-                echo "<script>alert('Atenção: Você já possui uma unidade cadastrada em sua conta!'); window.location.href='index.php?rota=profile';</script>";
+                include $baseDir . '/src/Views/profile.php';
+                echo "<script>window.onload = () => window.toast('Você já possui uma unidade cadastrada!', 'warn');</script>";
                 exit();
             }
-            // --- FIM DA TRAVA ---
 
             try {
                 $pdo->beginTransaction();
@@ -139,26 +148,27 @@ switch ($rota) {
                 ]);
                 $endereco_id = $pdo->lastInsertId();
 
-                // 2. Inserir a Empresa usando o ID do endereço
+                // 2. Inserir a Empresa
                 $sqlEmp = "INSERT INTO empresas (razao_social, endereco_id) VALUES (?, ?)";
                 $stmtEmp = $pdo->prepare($sqlEmp);
                 $stmtEmp->execute([$_POST['razao_social'], $endereco_id]);
                 $empresa_id = $pdo->lastInsertId();
 
-                // 3. Vincular o usuário logado à empresa
+                // 3. Vincular usuário
                 if (isset($_SESSION['usuario_id'])) {
                     $sqlUser = "UPDATE usuarios SET empresa_id = ? WHERE id = ?";
                     $pdo->prepare($sqlUser)->execute([$empresa_id, $_SESSION['usuario_id']]);
-                    $_SESSION['usuario_empresa_id'] = $empresa_id; 
                 }
 
                 $pdo->commit();
+                // Redireciona com parâmetro para o profile disparar o Toast de sucesso
                 header("Location: index.php?rota=profile&msg=empresa_vinculada");
                 exit();
 
             } catch (Exception $e) {
                 $pdo->rollBack();
-                die("Erro ao cadastrar: " . $e->getMessage());
+                include $baseDir . '/src/Views/empresas.php';
+                echo "<script>window.onload = () => window.toast('Erro ao cadastrar unidade.', 'error');</script>";
             }
         }
         break;
