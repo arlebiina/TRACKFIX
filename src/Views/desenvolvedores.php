@@ -1,6 +1,38 @@
 <?php include 'header.php'; ?>
 
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+
 <style>
+    
+ /* --- EFEITO: FOCUS MODE (INTERAÇÃO DO GRID) --- */
+    /* Quando o mouse entra no grid, todos os cards "apagam" levemente */
+    .grid-centralizado:hover .sobre-card-glass {
+        opacity: 0.5;
+        filter: blur(1px) grayscale(20%);
+        transform: scale(0.96);
+    }
+
+    /* O card que o mouse está em cima fica em foco total */
+    .grid-centralizado .sobre-card-glass:hover {
+        opacity: 1 !important;
+        filter: blur(0) grayscale(0%);
+        transform: translateY(-15px) scale(1.05) !important;
+        border-color: #7da5fb !important;
+        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.6);
+    }
+    
+    /* --- EFEITO: ESTILO DA BARRA DE PROGRESSO --- */
+    #scroll-progress {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 0%;
+        height: 4px;
+        background: #7da5fb;
+        z-index: 9999;
+        box-shadow: 0 0 10px rgba(125, 165, 251, 0.5);
+    }  
+    
     /* --- EFEITO: ANIMAÇÃO DE ENTRADA SUAVE --- */
     @keyframes fadeIn {
         from { 
@@ -14,8 +46,9 @@
     }
 
     .sobre-section {
-        /* Garante que o fade-in funcione no container */
+        font-family: Arial, Helvetica, sans-serif !important;
         animation: fadeIn 0.8s ease-out forwards;
+        padding: 20px;
     }
 
     /* Estilo Glassmorphism para os Cartões */
@@ -30,15 +63,13 @@
         flex: 1 1 300px;
         max-width: 350px;
         transition: all 0.4s ease !important;
-        
-        /* Prepara para a animação em cascata e efeito de brilho */
         opacity: 0; 
         animation: fadeIn 0.8s ease-out forwards;
         position: relative;
         overflow: hidden;
     }
 
-    /* --- EFEITO: ENTRADA EM CASCATA (STAGGER) --- */
+     /* --- EFEITO: ENTRADA EM CASCATA (STAGGER) --- */
     .sobre-card-glass:nth-child(1) { animation-delay: 0.1s; }
     .sobre-card-glass:nth-child(2) { animation-delay: 0.2s; }
     .sobre-card-glass:nth-child(3) { animation-delay: 0.3s; }
@@ -79,6 +110,30 @@
         display: block;
     }
 
+    /* --- ESTILO DOS NOMES --- */
+    .dev-nome {
+        color: #7da5fb; 
+        font-size: 1.5rem; 
+        font-weight: 800; 
+        font-family: Verdana, sans-serif; 
+        margin-bottom: 10px;
+    }
+
+    /* --- LINK DO GITHUB --- */
+    .github-link {
+        display: inline-block;
+        margin-top: 15px;
+        color: rgba(255, 255, 255, 0.4);
+        font-size: 1.8rem;
+        transition: all 0.3s ease;
+        text-decoration: none !important;
+    }
+
+    .github-link:hover {
+        color: #7da5fb;
+        transform: scale(1.2);
+    }
+
     /* --- EFEITO 5: BOTÃO GLOW COM O TOM DE AZUL --- */
     .btn-glow {
         display: inline-flex;
@@ -86,19 +141,19 @@
         gap: 12px;
         padding: 14px 45px;
         background: #7da5fb !important;
-        color: white !important;
+        color: black !important;
         text-decoration: underline !important;
         border-radius: 50px;
         font-weight: 600;
         transition: all 0.3s ease;
-        box-shadow: 0 0 15px rgba(125, 165, 251, 0.4);
         border: none;
+        cursor: pointer;
     }
 
     .btn-glow:hover {
-        box-shadow: 0 0 30px #7da5fb;
+        filter: brightness(1.1);
         transform: scale(1.05);
-        color: #fff;
+        box-shadow: 0 0 25px rgba(125, 165, 251, 0.4);
     }
 
     .grid-centralizado {
@@ -114,7 +169,7 @@
     <div class="content">
         <section class="sobre-section">
             <header style="text-align: center; margin-bottom: 50px;">
-                <h1 class="sobre-titulo">Equipe de Desenvolvimento </h1>
+                <h1 style="font-size: 2.2rem; color: white;">Equipe de Desenvolvimento</h1>
                 <p class="muted">Conheça os 5 especialistas por trás do TrackFix.</p>
             </header>
 
@@ -122,42 +177,57 @@
                 
                 <div class="sobre-card-glass">
                     <span class="sobre-icon-glass">👩🏻‍💻</span>
-                     <h3 style="color: #7da5fb; font-size: 1.5rem; font-weight: 800; font-family: Verdana, sans-serif; margin-bottom: 10px;">Nome do Dev 1</h3>
+                    <h3 class="dev-nome">Nome do Dev 1</h3>
                     <p class="muted" style="font-size: 0.85rem;">Especialidade 1</p>
                     <hr style="opacity: 0.1; margin: 15px 0;">
-                    <p>Texto para a descrição das atividades do primeiro desenvolvedor.</p>
+                    <p style="line-height: 1.6;">Texto para a descrição das atividades do primeiro desenvolvedor.</p>
+                    <a href="https://github.com/arlebiina" target="_blank" class="github-link">
+                        <i class="fab fa-github"></i>
+                    </a>
                 </div>
 
                 <div class="sobre-card-glass">
                     <span class="sobre-icon-glass">💻</span>
-                     <h3 style="color: #7da5fb; font-size: 1.5rem; font-weight: 800; font-family: Verdana, sans-serif; margin-bottom: 10px;">Nome do Dev 2</h3>
+                    <h3 class="dev-nome">Nome do Dev 2</h3>
                     <p class="muted" style="font-size: 0.85rem;">Especialidade 2</p>
                     <hr style="opacity: 0.1; margin: 15px 0;">
-                    <p>Texto para a descrição das atividades do segundo desenvolvedor.</p>
+                    <p style="line-height: 1.6;">Texto para a descrição das atividades do segundo desenvolvedor.</p>
+                    <a href="https://github.com/marialaura123fernandes-lgtm" target="_blank" class="github-link">
+                        <i class="fab fa-github"></i>
+                    </a>
                 </div>
 
                 <div class="sobre-card-glass">
                     <span class="sobre-icon-glass">🛡️</span>
-                     <h3 style="color:#7da5fb; font-size: 1.5rem; font-weight: 800; font-family: Verdana, sans-serif; margin-bottom: 10px;">Nome do Dev 3</h3>
+                    <h3 class="dev-nome">Nome do Dev 3</h3>
                     <p class="muted" style="font-size: 0.85rem;">Especialidade 3</p>
                     <hr style="opacity: 0.1; margin: 15px 0;">
-                    <p>Texto para a descrição das atividades do terceiro desenvolvedor.</p>
+                    <p style="line-height: 1.6;">Texto para a descrição das atividades do terceiro desenvolvedor.</p>
+                    <a href="https://github.com/izaaaaaaaa" target="_blank" class="github-link">
+                        <i class="fab fa-github"></i>
+                    </a>
                 </div>
 
                 <div class="sobre-card-glass">
                     <span class="sobre-icon-glass">🎨</span>
-                     <h3 style="color: #7da5fb; font-size: 1.5rem; font-weight: 800; font-family: Verdana, sans-serif; margin-bottom: 10px;">Nome do Dev 4</h3>
+                    <h3 class="dev-nome">Nome do Dev 4</h3>
                     <p class="muted" style="font-size: 0.85rem;">Especialidade 4</p>
                     <hr style="opacity: 0.1; margin: 15px 0;">
-                    <p>Texto para a descrição das atividades do quarto desenvolvedor.</p>
+                    <p style="line-height: 1.6;">Texto para a descrição das atividades do quarto desenvolvedor.</p>
+                    <a href="https://github.com/0001137790-create" target="_blank" class="github-link">
+                        <i class="fab fa-github"></i>
+                    </a>
                 </div>
 
                <div class="sobre-card-glass">
                     <span class="sobre-icon-glass">🔨</span>
-                     <h3 style="color: #7da5fb; font-size: 1.5rem; font-weight: 800; font-family: Verdana, sans-serif; margin-bottom: 10px;">Nome do Dev 5</h3>
+                    <h3 class="dev-nome">Nome do Dev 5</h3>
                     <p class="muted" style="font-size: 0.85rem;">Especialidade 5</p>
                     <hr style="opacity: 0.1; margin: 15px 0;">
-                    <p>Texto para a descrição das atividades do quinto desenvolvedor.</p>
+                    <p style="line-height: 1.6;">Texto para a descrição das atividades do quinto desenvolvedor.</p>
+                    <a href="https://github.com/LuisFelipeOliveiraTeodoro" target="_blank" class="github-link">
+                        <i class="fab fa-github"></i>
+                    </a>
                 </div>
 
             </div>
