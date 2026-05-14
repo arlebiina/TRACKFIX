@@ -8,19 +8,20 @@
     <link rel="stylesheet" href="css/style_trackfix.css?v=<?php echo time(); ?>">
     
     <style>
-        /* Ajuste específico para a logo aparecer dentro da sua div .logo */
+        /* Ajuste específico para a logo */
         .brand .logo {
             width: 42px;
             height: 42px;
-            background-image: url('img/logo-trackfix.png'); /* Caminho para sua pasta img */
+            background-image: url('img/logo-trackfix.png') !important;
             background-size: cover;
             background-position: center;
+            background-repeat: no-repeat;
             border-radius: 50%;
             border: 2px solid #7da5fb;
-            flex-shrink: 0; /* Impede que a logo amasse */
+            display: inline-block;
+            flex-shrink: 0;
         }
 
-        /* Container para as mensagens bonitas que criamos no JS */
         #toast-container {
             position: fixed;
             top: 20px;
@@ -31,19 +32,20 @@
             gap: 10px;
         }
 
-.brand .logo {
-    width: 42px;
-    height: 42px;
-    background-image: url('img/logo-trackfix.png') !important; /* Força o carregamento */
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
-    border-radius: 50%;
-    border: 2px solid #7da5fb;
-    display: inline-block; /* Garante que a div tenha dimensões */
-    flex-shrink: 0;
-}
-
+        /* O PAINEL QUE ESTAVA FALTANDO NO SEU HTML */
+        .notification-panel {
+            position: absolute;
+            top: 60px;
+            right: 0;
+            width: 280px;
+            background: #11141b;
+            border: 1px solid #7da5fb;
+            border-radius: 12px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.6);
+            z-index: 1000;
+            display: none; /* JS vai mudar para block */
+            overflow: hidden;
+        }
     </style>
 </head>
 <body class="<?php echo (isset($_COOKIE['sidebarStatus']) && $_COOKIE['sidebarStatus'] === 'active') ? 'menu-open-body' : ''; ?>">
@@ -53,9 +55,7 @@
     <header class="nav">
         <div class="brand">
             <button id="toggleMenu" class="btn-ghost" style="font-size:20px">☰</button>
-            
             <div class="logo"></div>
-            
             <div>
                 <div style="font-size:16px">Oficina • <span class="badge ok">Gestão</span></div>
                 <small class="muted">TrackFix</small>
@@ -71,7 +71,18 @@
         <div class="actions">
             <button id="toggleTheme" class="btn-ghost" title="Alternar Tema">🌓</button>
             <button id="toggleContrast" class="btn-ghost" title="Alto Contraste">◐</button>
-            <button id="notifyBtn" class="btn-ghost">🔔</button>
+            
+            <div style="position: relative; display: inline-block;">
+                <button id="notifyBtn" class="btn-ghost">🔔</button>
+                <div id="notificationPanel" class="notification-panel">
+                    <div style="padding: 12px; background: rgba(125,165,251,0.1); border-bottom: 1px solid #333; font-weight: bold; color: #fff; font-size: 13px;">
+                        Notificações
+                    </div>
+                    <div style="padding: 20px; text-align: center; color: #666; font-size: 12px;">
+                        Nenhuma notificação nova
+                    </div>
+                </div>
+            </div>
             
             <?php if(isset($_SESSION['usuario_nome'])): ?>
                 <span style="margin-right: 10px; font-size: 14px;">Olá, <?= explode(' ', $_SESSION['usuario_nome'])[0] ?></span>
@@ -85,7 +96,6 @@
     <div class="layout">
     <aside class="sidebar">
         <?php
-            // Função rápida para marcar o link ativo
             $current = $_GET['rota'] ?? 'home';
             function isActive($route, $current) { echo ($route === $current) ? 'active' : ''; }
         ?>
@@ -109,3 +119,5 @@
         <a href="?rota=config" class="navlink <?php isActive('config', $current); ?>">⚙️ <span>Configurações</span></a>
         <a href="?rota=desenvolvedores" class="navlink <?php isActive('desenvolvedores', $current); ?>">🧑‍💻 <span>Desenvolvedores</span></a>
     </aside>
+
+    <script src="js/Script_trackfix.js?v=<?php echo time(); ?>"></script>
