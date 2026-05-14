@@ -8,7 +8,6 @@
     <link rel="stylesheet" href="css/style_trackfix.css?v=<?php echo time(); ?>">
     
     <style>
-        /* Ajuste específico para a logo */
         .brand .logo {
             width: 42px;
             height: 42px;
@@ -32,7 +31,6 @@
             gap: 10px;
         }
 
-        /* O PAINEL QUE ESTAVA FALTANDO NO SEU HTML */
         .notification-panel {
             position: absolute;
             top: 60px;
@@ -43,7 +41,7 @@
             border-radius: 12px;
             box-shadow: 0 10px 30px rgba(0,0,0,0.6);
             z-index: 1000;
-            display: none; /* JS vai mudar para block */
+            display: none;
             overflow: hidden;
         }
     </style>
