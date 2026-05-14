@@ -19,6 +19,18 @@
                         <p>Acesse o menu Gerenciador e selecione a ferramenta.</p>
                     </details>
                 </div>
+                 <div class="ajuda-v2-faq-item">
+                    <details>
+                        <summary>▶ Como vincular minha empresa?</summary>
+                        <p>Acesse o menu cadastrar empresa e cadastre sua empresa.<br> Vá na tela de usuário e estará cadastrado em uma empresa.</p>
+                    </details>
+                </div>
+                <div class="ajuda-v2-faq-item">
+                    <details>
+                        <summary>▶ Posso vincular mais de uma empresa, no meu cadastro?</summary>
+                        <p>Não. Só é permitido uma empresa por cadastro.</p>
+                    </details>
+                </div>
             </div>
 
             <div class="ajuda-v2-card">
