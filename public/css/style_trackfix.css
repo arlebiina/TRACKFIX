@@ -40,20 +40,70 @@ body.light header.nav {
   background: linear-gradient(180deg, #ff6b80, #ff3d5a);
   color: #2b0010;
 }
-/* Modo leitura (luz quente) */
-body.light.reading-mode {
-  --bg: #fdf6e3;        /* bege claro */
-  --surface: #f7f1dc;
-  --surface-2: #f1ead2;
-  --text: #3b2f2f;      /* marrom suave */
-  --muted: #6b5e4b;
-  --primary: #c27c2c;
-  --accent: #d97706;
+
+/* ==========================================
+   MODO LEITURA: BRILHO MÍNIMO (CONTEÚDO)
+   HEADER UM POUCO MAIS CLARO
+   ========================================== */
+
+body.reading-mode {
+    --bg: #020308 !important; 
+    --surface: #05070a !important;   
+    --surface-2: #080a0f !important;
+    --text: #657070 !important;      
+    --muted: #657070 !important;     
+
+    background: var(--bg) !important;
+    background-image: none !important; 
+    color: var(--text) !important;
 }
 
-/* Opcional: suavizar tudo */
-body.reading-mode {
-  filter: sepia(0.2) brightness(0.95);
+/* --- HEADER (O topo que você não quer tão escuro) --- */
+body.reading-mode header.nav {
+    /* Um azul marinho mais perceptível, mas ainda suave */
+    background: #0d121f !important; 
+    border-bottom: 1px solid #1a2236 !important;
+    backdrop-filter: none !important; /* Remove transparência para cores sólidas */
+}
+
+/* Garante que os itens dentro do header apareçam um pouco mais */
+body.reading-mode header.nav .brand,
+body.reading-mode header.nav .actions button {
+    color: #8e9999 !important; /* Cinza azulado mais claro que o resto */
+    opacity: 1 !important;
+}
+
+/* --- RESTO DA PÁGINA (Mantendo o brilho no mínimo) --- */
+
+body.reading-mode h2, 
+body.reading-mode h3, 
+body.reading-mode .card h2, 
+body.reading-mode .card h3 {
+    color: #4f4f4f !important;
+    text-shadow: none !important;
+}
+
+body.reading-mode .btn-principal,
+body.reading-mode .btn,
+body.reading-mode button[type="submit"] {
+    background: #080a0f !important;
+    color: #4f4f4f !important;
+    border: 1px solid #1a1c22 !important;
+    background-image: none !important;
+    filter: grayscale(1);
+}
+
+body.reading-mode input, 
+body.reading-mode select {
+    background: #04050a !important;
+    border: 1px solid #121620 !important;
+    color: #4f4f4f !important;
+}
+
+/* Sidebar também acompanha o fundo ultra escuro */
+body.reading-mode aside.sidebar {
+    background: #020308 !important;
+    border-right: 1px solid #0d0f14 !important;
 }
 
 body.light header.nav .brand,
@@ -79,36 +129,64 @@ body.light .btn-ghost:hover {
   background: rgba(37, 99, 235, 0.2);
 }
 
-
-
-  /* Alto contraste (WCAG AA+) - Forçado para ignorar outros modos */
+/* Alto Contraste Modernizado (Foco em Legibilidade e Hierarquia) */
 body.high-contrast {
+    /* Tons de fundo - Preto levemente azulado para profundidade */
     --bg: #000000 !important;
-    --surface: #000000 !important;
-    --surface-2: #111111 !important;
-    --text: #ffffff !important; /* Texto branco puro */
-    --muted: #ffff00 !important; /* Texto secundário em amarelo para destaque */
-    --primary: #ffff00 !important; /* Botões amarelos (máximo contraste no preto) */
-    --accent: #00ffff !important;
+    --surface: #0a0a0a !important;
+    --surface-2: #1a1a1a !important;
+
+    /* Texto principal e secundário */
+    --text: #ffffff !important; 
+    --muted: #cbd5e1 !important; /* Cinza claro azulado */
+
+    /* Cores de Ação (Acessibilidade máxima) */
+    --primary: #fde047 !important;  /* Amarelo vibrante */
+    --primary-2: #facc15 !important;
+    --accent: #22d3ee !important;   /* Ciano focado em botões de destaque */
+
+    /* Cores de Estado */
+    --success: #4ade80 !important;
+    --danger: #f87171 !important;
+    --warning: #fbbf24 !important;
+
     --shadow: none !important;
-    background: #000 !important;
+    background: var(--bg) !important;
+    color: var(--text) !important;
 }
 
-/* Garante que os inputs fiquem visíveis no alto contraste */
+/* Melhoria nos Inputs e Campos */
 body.high-contrast input,
 body.high-contrast select,
 body.high-contrast textarea {
     background: #000 !important;
-    border: 2px solid #fff !important;
+    border: 2px solid #fde047 !important; /* Borda amarela para foco claro */
     color: #fff !important;
+    outline: none !important;
 }
 
-/* Garante que o cabeçalho não fique azul no modo claro + contraste */
+body.high-contrast input:focus {
+    border-color: #ffffff !important;
+    box-shadow: 0 0 0 2px #fde047 !important;
+}
+
+/* Ajuste do Header */
 body.high-contrast header.nav {
-    background: #000 !important;
-    border-bottom: 2px solid #fff !important;
-}none;
-    }
+    background: #0a0a0a !important;
+    border-bottom: 3px solid #fde047 !important; /* Linha de separação forte */
+}
+
+/* Ajuste de links e ícones */
+body.high-contrast .navlink, 
+body.high-contrast .btn-ghost {
+    color: #ffffff !important;
+    border: 1px solid transparent !important;
+}
+
+body.high-contrast .navlink:hover {
+    border-color: #fde047 !important;
+    background: #1a1a1a !important;
+}
 
     html, body { height: 100%; }
     body {
