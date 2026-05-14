@@ -189,3 +189,65 @@ function buscarRastreio() {
         })
         .catch(() => window.toast("Erro ao buscar dados", "error"));
 }
+
+// ==========================================
+// MODO LEITURA
+// ==========================================
+const btnReading = document.getElementById('toggleReading');
+
+// Verifica se já estava ligado antes de recarregar a página
+if (localStorage.getItem('readingMode') === 'true') {
+    document.body.classList.add('reading-mode');
+}
+
+if (btnReading) {
+    btnReading.onclick = () => {
+        const isReading = document.body.classList.toggle('reading-mode');
+        localStorage.setItem('readingMode', isReading);
+        
+        // Opcional: Mostra um aviso na tela
+        if(window.toast) {
+            window.toast(isReading ? "Modo Leitura Ativado" : "Modo Leitura Desativado", "info");
+        }
+    };
+}
+
+// 1. COLOCA ISTO LOGO NO TOPO DO FICHEIRO (FORA DE TUDO)
+window.toast = (msg, tipo = 'info') => {
+    let container = document.getElementById('toast-container');
+    if (!container) {
+        container = document.createElement('div');
+        container.id = 'toast-container';
+        document.body.appendChild(container);
+    }
+    const toast = document.createElement('div');
+    toast.className = `custom-toast ${tipo}`;
+    const icones = { success: '✅', error: '⚠️', warn: '🔔', info: 'ℹ️' };
+    toast.innerHTML = `<span>${icones[tipo] || 'ℹ️'}</span><span>${msg}</span>`;
+    container.appendChild(toast);
+    setTimeout(() => {
+        toast.style.opacity = '0';
+        setTimeout(() => toast.remove(), 500);
+    }, 4000);
+};
+
+// 2. DENTRO DO TEU document.addEventListener('DOMContentLoaded', () => { ... })
+// Atualiza os teus botões para chamarem a função:
+
+btnTheme.onclick = () => {
+    const isLight = document.body.classList.toggle('light');
+    localStorage.setItem('theme', isLight ? 'light' : 'dark');
+    window.toast(isLight ? "Tema Claro Ativado" : "Tema Escuro Ativado");
+};
+
+btnContrast.onclick = () => {
+    const isHigh = document.body.classList.toggle('high-contrast');
+    localStorage.setItem('contrast', isHigh);
+    window.toast(isHigh ? "Alto Contraste Ativado" : "Alto Contraste Desativado", "warn");
+};
+
+btnReading.onclick = () => {
+    const isReading = document.body.classList.toggle('reading-mode');
+    localStorage.setItem('readingMode', isReading);
+    window.toast(isReading ? "Modo Leitura Ativado" : "Modo Leitura Desativado");
+};
