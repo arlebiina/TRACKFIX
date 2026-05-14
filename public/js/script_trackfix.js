@@ -19,14 +19,35 @@ document.addEventListener('DOMContentLoaded', () => {
 
         toggleMenu.onclick = () => {
             sidebar.classList.toggle('open');
-            layout.classList.toggle('menu-open');
+            if(layout) layout.classList.toggle('menu-open');
             const isOpen = sidebar.classList.contains('open');
             localStorage.setItem('sidebarOpen', isOpen);
+            document.cookie = "sidebarStatus=" + (isOpen ? "active" : "inactive") + ";path=/";
         };
     }
 
     // ==========================================
-    // 2. TEMAS (Claro / Escuro / Contraste)
+    // 2. PAINEL DE NOTIFICAÇÕES (Sino) - NOVO!
+    // ==========================================
+    const notifyBtn = document.getElementById('notifyBtn');
+    const notificationPanel = document.getElementById('notificationPanel');
+
+    if (notifyBtn && notificationPanel) {
+        notifyBtn.onclick = (e) => {
+            e.stopPropagation();
+            const isVisible = notificationPanel.style.display === 'block';
+            notificationPanel.style.display = isVisible ? 'none' : 'block';
+        };
+
+        document.addEventListener('click', () => {
+            notificationPanel.style.display = 'none';
+        });
+
+        notificationPanel.onclick = (e) => e.stopPropagation();
+    }
+
+    // ==========================================
+    // 3. TEMAS (Claro / Escuro / Contraste)
     // ==========================================
     const btnTheme = $('#toggleTheme');
     const btnContrast = $('#toggleContrast');
@@ -49,7 +70,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // ==========================================
-    // 3. PESQUISA DE FERRAMENTAS
+    // 4. PESQUISA DE FERRAMENTAS
     // ==========================================
     const ferramentas = [
         { id: 'QR-1001', nome: 'Paquímetro Digital', cat: 'Medição', local: 'Armário A', status: 'Disponível' },
@@ -91,7 +112,7 @@ document.addEventListener('DOMContentLoaded', () => {
     if ($('#toolRows')) filtrarFerramentas();
 
     // ==========================================
-    // 4. SISTEMA DE NOTIFICAÇÕES (Toast Premium)
+    // 5. SISTEMA DE TOASTS
     // ==========================================
     window.toast = (msg, tipo = 'info') => {
         let container = document.getElementById('toast-container');
@@ -104,10 +125,8 @@ document.addEventListener('DOMContentLoaded', () => {
         const toast = document.createElement('div');
         toast.className = `custom-toast ${tipo}`;
         
-        let icone = 'ℹ️';
-        if(tipo === 'success') icone = '✅';
-        if(tipo === 'error')   icone = '⚠️';
-        if(tipo === 'warn')    icone = '🔔';
+        const ícones = { success: '✅', error: '⚠️', warn: '🔔', info: 'ℹ️' };
+        const icone = ícones[tipo] || ícones.info;
 
         toast.innerHTML = `
             <span style="font-size: 1.2rem;">${icone}</span>
@@ -116,15 +135,15 @@ document.addEventListener('DOMContentLoaded', () => {
 
         container.appendChild(toast);
 
-        // Remove após 4 segundos
         setTimeout(() => {
-            toast.classList.add('toast-fade-out');
+            toast.style.opacity = '0';
+            toast.style.transform = 'translateY(-10px)';
             setTimeout(() => toast.remove(), 500);
         }, 4000);
     };
 
     // ==========================================
-    // 5. BUSCA DE CEP AUTOMÁTICA
+    // 6. BUSCA DE CEP AUTOMÁTICA
     // ==========================================
     const inputCep = document.getElementById('cep');
     if (inputCep) {
@@ -141,20 +160,16 @@ document.addEventListener('DOMContentLoaded', () => {
                             document.getElementById('cidade').value = dados.localidade;
                             document.getElementById('uf').value = dados.uf;
                             window.toast("Endereço preenchido!", "success");
-                            document.getElementsByName('numero')[0]?.focus();
                         } else {
                             window.toast("CEP não encontrado.", "error");
                         }
-                    })
-                    .catch(() => window.toast("Erro na conexão com ViaCEP", "error"));
+                    });
             }
         });
     }
 });
 
-// ==========================================
-// 6. RASTREIO DE EQUIPAMENTOS
-// ==========================================
+// Fora do DOMContentLoaded
 function buscarRastreio() {
     const idItem = document.getElementById('os-number')?.value;
     if(!idItem) return window.toast("Digite o ID do item", "warn");
@@ -170,7 +185,6 @@ function buscarRastreio() {
                 document.getElementById('nome-equipamento').innerText = data.equipamento;
                 document.getElementById('status-atual').innerText = data.status;
                 document.getElementById('local-atual').innerText = "Localização: " + data.nome_local;
-                // atualizarBarraProgresso(data.status); // Adicione se tiver essa função
             }
         })
         .catch(() => window.toast("Erro ao buscar dados", "error"));
