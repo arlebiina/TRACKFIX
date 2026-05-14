@@ -3,6 +3,14 @@ document.addEventListener('DOMContentLoaded', () => {
     const $ = (q) => document.querySelector(q);
 
     // ==========================================
+    // 0. GLOBAL: SUBSTITUIR ALERTS FEIOS (NOVO)
+    // ==========================================
+    // Isso garante que mesmo códigos externos usem o seu Toast
+    window.alert = function(msg) {
+        window.toast(msg, "success");
+    };
+
+    // ==========================================
     // 1. MENU LATERAL (Sidebar) - Persistente
     // ==========================================
     const toggleMenu = document.getElementById('toggleMenu');
@@ -22,43 +30,25 @@ document.addEventListener('DOMContentLoaded', () => {
             if(layout) layout.classList.toggle('menu-open');
             const isOpen = sidebar.classList.contains('open');
             localStorage.setItem('sidebarOpen', isOpen);
-            document.cookie = "sidebarStatus=" + (isOpen ? "active" : "inactive") + ";path=/";
         };
     }
 
     // ==========================================
-    // 2. PAINEL DE NOTIFICAÇÕES (Sino) - NOVO!
-    // ==========================================
-    const notifyBtn = document.getElementById('notifyBtn');
-    const notificationPanel = document.getElementById('notificationPanel');
-
-    if (notifyBtn && notificationPanel) {
-        notifyBtn.onclick = (e) => {
-            e.stopPropagation();
-            const isVisible = notificationPanel.style.display === 'block';
-            notificationPanel.style.display = isVisible ? 'none' : 'block';
-        };
-
-        document.addEventListener('click', () => {
-            notificationPanel.style.display = 'none';
-        });
-
-        notificationPanel.onclick = (e) => e.stopPropagation();
-    }
-
-    // ==========================================
-    // 3. TEMAS (Claro / Escuro / Contraste)
+    // 2. TEMAS (Claro / Escuro / Contraste / Leitura)
     // ==========================================
     const btnTheme = $('#toggleTheme');
     const btnContrast = $('#toggleContrast');
+    const btnReading = $('#toggleReading'); 
    
     if (localStorage.getItem('theme') === 'light') document.body.classList.add('light');
     if (localStorage.getItem('contrast') === 'true') document.body.classList.add('high-contrast');
+    if (localStorage.getItem('readingMode') === 'true') document.body.classList.add('reading-mode');
 
     if (btnTheme) {
         btnTheme.onclick = () => {
             const isLight = document.body.classList.toggle('light');
             localStorage.setItem('theme', isLight ? 'light' : 'dark');
+            window.toast(isLight ? "Tema Claro Ativado" : "Tema Escuro Ativado", "info");
         };
     }
 
@@ -66,11 +56,20 @@ document.addEventListener('DOMContentLoaded', () => {
         btnContrast.onclick = () => {
             const isHigh = document.body.classList.toggle('high-contrast');
             localStorage.setItem('contrast', isHigh);
+            window.toast(isHigh ? "Alto Contraste Ativado" : "Alto Contraste Desativado", "warn");
+        };
+    }
+
+    if (btnReading) {
+        btnReading.onclick = () => {
+            const isReading = document.body.classList.toggle('reading-mode');
+            localStorage.setItem('readingMode', isReading);
+            window.toast(isReading ? "Modo Leitura Ativado" : "Modo Leitura Desativado", "info");
         };
     }
 
     // ==========================================
-    // 4. PESQUISA DE FERRAMENTAS
+    // 3. PESQUISA DE FERRAMENTAS
     // ==========================================
     const ferramentas = [
         { id: 'QR-1001', nome: 'Paquímetro Digital', cat: 'Medição', local: 'Armário A', status: 'Disponível' },
@@ -112,7 +111,7 @@ document.addEventListener('DOMContentLoaded', () => {
     if ($('#toolRows')) filtrarFerramentas();
 
     // ==========================================
-    // 5. SISTEMA DE TOASTS
+    // 4. SISTEMA DE NOTIFICAÇÕES (Toast)
     // ==========================================
     window.toast = (msg, tipo = 'info') => {
         let container = document.getElementById('toast-container');
@@ -125,8 +124,10 @@ document.addEventListener('DOMContentLoaded', () => {
         const toast = document.createElement('div');
         toast.className = `custom-toast ${tipo}`;
         
-        const ícones = { success: '✅', error: '⚠️', warn: '🔔', info: 'ℹ️' };
-        const icone = ícones[tipo] || ícones.info;
+        let icone = 'ℹ️';
+        if(tipo === 'success') icone = '✅';
+        if(tipo === 'error')   icone = '⚠️';
+        if(tipo === 'warn')    icone = '🔔';
 
         toast.innerHTML = `
             <span style="font-size: 1.2rem;">${icone}</span>
@@ -143,7 +144,7 @@ document.addEventListener('DOMContentLoaded', () => {
     };
 
     // ==========================================
-    // 6. BUSCA DE CEP AUTOMÁTICA
+    // 5. BUSCA DE CEP AUTOMÁTICA
     // ==========================================
     const inputCep = document.getElementById('cep');
     if (inputCep) {
@@ -155,21 +156,36 @@ document.addEventListener('DOMContentLoaded', () => {
                     .then(res => res.json())
                     .then(dados => {
                         if (!("erro" in dados)) {
-                            document.getElementById('logradouro').value = dados.logradouro;
-                            document.getElementById('bairro').value = dados.bairro;
-                            document.getElementById('cidade').value = dados.localidade;
-                            document.getElementById('uf').value = dados.uf;
+                            document.getElementById('logradouro').value = dados.logradouro || "";
+                            document.getElementById('bairro').value = dados.bairro || "";
+                            document.getElementById('cidade').value = dados.localidade || "";
+                            document.getElementById('uf').value = dados.uf || "";
                             window.toast("Endereço preenchido!", "success");
                         } else {
                             window.toast("CEP não encontrado.", "error");
                         }
-                    });
+                    })
+                    .catch(() => window.toast("Erro na conexão com ViaCEP", "error"));
             }
+        });
+    }
+
+    // ==========================================
+    // 7. INTERCEPTADOR DE COOKIES
+    // ==========================================
+    const btnCookies = document.getElementById('btnAcceptCookies') || document.querySelector('.cookie-accept-btn');
+    if (btnCookies) {
+        btnCookies.addEventListener('click', () => {
+            // Se o seu banner usa 'alert()', a função no topo já vai cuidar disso.
+            // Mas aqui garantimos a chamada do Toast.
+            window.toast("Preferências salvas com sucesso!", "success");
         });
     }
 });
 
-// Fora do DOMContentLoaded
+// ==========================================
+// 6. RASTREIO DE EQUIPAMENTOS (Global)
+// ==========================================
 function buscarRastreio() {
     const idItem = document.getElementById('os-number')?.value;
     if(!idItem) return window.toast("Digite o ID do item", "warn");
@@ -181,7 +197,8 @@ function buscarRastreio() {
                 window.toast(data.error, "error");
             } else {
                 window.toast("Informações carregadas!", "success");
-                document.getElementById('resultado-rastreio').style.display = 'block';
+                const resDiv = document.getElementById('resultado-rastreio');
+                if(resDiv) resDiv.style.display = 'block';
                 document.getElementById('nome-equipamento').innerText = data.equipamento;
                 document.getElementById('status-atual').innerText = data.status;
                 document.getElementById('local-atual').innerText = "Localização: " + data.nome_local;
@@ -189,65 +206,3 @@ function buscarRastreio() {
         })
         .catch(() => window.toast("Erro ao buscar dados", "error"));
 }
-
-// ==========================================
-// MODO LEITURA
-// ==========================================
-const btnReading = document.getElementById('toggleReading');
-
-// Verifica se já estava ligado antes de recarregar a página
-if (localStorage.getItem('readingMode') === 'true') {
-    document.body.classList.add('reading-mode');
-}
-
-if (btnReading) {
-    btnReading.onclick = () => {
-        const isReading = document.body.classList.toggle('reading-mode');
-        localStorage.setItem('readingMode', isReading);
-        
-        // Opcional: Mostra um aviso na tela
-        if(window.toast) {
-            window.toast(isReading ? "Modo Leitura Ativado" : "Modo Leitura Desativado", "info");
-        }
-    };
-}
-
-// 1. COLOCA ISTO LOGO NO TOPO DO FICHEIRO (FORA DE TUDO)
-window.toast = (msg, tipo = 'info') => {
-    let container = document.getElementById('toast-container');
-    if (!container) {
-        container = document.createElement('div');
-        container.id = 'toast-container';
-        document.body.appendChild(container);
-    }
-    const toast = document.createElement('div');
-    toast.className = `custom-toast ${tipo}`;
-    const icones = { success: '✅', error: '⚠️', warn: '🔔', info: 'ℹ️' };
-    toast.innerHTML = `<span>${icones[tipo] || 'ℹ️'}</span><span>${msg}</span>`;
-    container.appendChild(toast);
-    setTimeout(() => {
-        toast.style.opacity = '0';
-        setTimeout(() => toast.remove(), 500);
-    }, 4000);
-};
-
-// 2. DENTRO DO TEU document.addEventListener('DOMContentLoaded', () => { ... })
-// Atualiza os teus botões para chamarem a função:
-
-btnTheme.onclick = () => {
-    const isLight = document.body.classList.toggle('light');
-    localStorage.setItem('theme', isLight ? 'light' : 'dark');
-    window.toast(isLight ? "Tema Claro Ativado" : "Tema Escuro Ativado");
-};
-
-btnContrast.onclick = () => {
-    const isHigh = document.body.classList.toggle('high-contrast');
-    localStorage.setItem('contrast', isHigh);
-    window.toast(isHigh ? "Alto Contraste Ativado" : "Alto Contraste Desativado", "warn");
-};
-
-btnReading.onclick = () => {
-    const isReading = document.body.classList.toggle('reading-mode');
-    localStorage.setItem('readingMode', isReading);
-    window.toast(isReading ? "Modo Leitura Ativado" : "Modo Leitura Desativado");
-};
