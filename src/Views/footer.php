@@ -57,4 +57,3 @@
 <script src="/trackfix/public/js/script_trackfix.js?v=<?php echo time(); ?>"></script>
 </body>
 </html>
-    
