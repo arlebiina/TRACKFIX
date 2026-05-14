@@ -202,7 +202,7 @@
                     <h3 class="dev-nome">Izadora Peres</h3>
                     <p class="muted" style="font-size: 0.85rem;">Especialidade 3</p>
                     <hr style="opacity: 0.1; margin: 15px 0;">
-                    <p style="line-height: 1.6;">Texto para a descrição das atividades do terceiro desenvolvedor.</p>
+                    <p style="line-height: 1.6;">0001138565@senaimgaluno.com.br</p>
                     <a href="https://github.com/izaaaaaaaa" target="_blank" class="github-link">
                         <i class="fab fa-github"></i>
                     </a>
@@ -213,7 +213,7 @@
                     <h3 class="dev-nome">Izabella Peres</h3>
                     <p class="muted" style="font-size: 0.85rem;">Especialidade 4</p>
                     <hr style="opacity: 0.1; margin: 15px 0;">
-                    <p style="line-height: 1.6;">Texto para a descrição das atividades do quarto desenvolvedor.</p>
+                    <p style="line-height: 1.6;">izabellaperessilvadeoliveira@gmail.com</p>
                     <a href="https://github.com/0001137790-create" target="_blank" class="github-link">
                         <i class="fab fa-github"></i>
                     </a>
@@ -224,7 +224,7 @@
                     <h3 class="dev-nome">Luis Felipe Oliveira</h3>
                     <p class="muted" style="font-size: 0.85rem;">Especialidade 5</p>
                     <hr style="opacity: 0.1; margin: 15px 0;">
-                    <p style="line-height: 1.6;">Texto para a descrição das atividades do quinto desenvolvedor.</p>
+                    <p style="line-height: 1.6;">0001138704@senaimgaluno.com.br</p>
                     <a href="https://github.com/LuisFelipeOliveiraTeodoro" target="_blank" class="github-link">
                         <i class="fab fa-github"></i>
                     </a>
