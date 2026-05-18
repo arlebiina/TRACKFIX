@@ -1,4 +1,4 @@
- :root {
+:root {
       --bg: #0b1020;
       --surface: #121833;
       --surface-2: #0f1430;
@@ -51,10 +51,12 @@ body.light.reading-mode {
   --accent: #d97706;
 }
 
+
 /* Opcional: suavizar tudo */
 body.reading-mode {
   filter: sepia(0.2) brightness(0.95);
 }
+
 
 body.light header.nav .brand,
 body.light header.nav .brand .logo,
@@ -78,8 +80,6 @@ body.light .btn-ghost {
 body.light .btn-ghost:hover {
   background: rgba(37, 99, 235, 0.2);
 }
-
-
 
   /* Alto contraste (WCAG AA+) - Forçado para ignorar outros modos */
 body.high-contrast {
@@ -572,7 +572,7 @@ body.light .badge.danger { color: #5c0000; }
     border-radius: 8px;
 }
 
-/* Botões Azuis (como na sua imagem) */
+/* Botões Azuis*/
 .btn-auth-principal,
 .btn-auth-secundario {
     background: #94b8ff;
@@ -1081,4 +1081,26 @@ a[class*="btn"]:hover {
     transform: translateY(-2px) scale(1.03) !important; /* Levanta e expande levemente o botão */
     box-shadow: 0 0 25px rgba(125, 165, 251, 0.6) !important; /* O brilho neon azul expandido */
     cursor: pointer;
+}
+
+.card-auth a,
+.perfil-page a,
+[class*="card"] a {
+    color: #ffffff !important; /* Texto branco puro para dar contraste máximo */
+    text-decoration: none !important;
+    font-weight: 700 !important;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease-in-out !important;
+}
+
+/* Aplica o efeito de levanta e Glow intenso ao passar o mouse */
+.card-auth a:hover,
+.perfil-page a:hover,
+[class*="card"] a:hover {
+    color: #7da5fb !important; /* Texto muda para o azul TrackFix clássico */
+    transform: translateY(-2px) scale(1.03) !important; /* Efeito de flutuar levemente */
+    box-shadow: 0 0 25px rgba(125, 165, 251, 0.6) !important; /* Brilho neon expandido */
+    text-shadow: 0 0 5px rgba(125, 165, 251, 0.4);
 }
