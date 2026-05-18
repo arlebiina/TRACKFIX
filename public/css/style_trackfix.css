@@ -1057,3 +1057,28 @@ body.menu-open-body .layout {
 @keyframes toastFadeOut {
     to { opacity: 0; transform: translateY(-20px); }
 }
+
+/* --- COMPORTAMENTO PADRÃO DOS BOTÕES --- */
+/* Certifica que todos os botões tenham uma transição suave quando o mouse entrar e sair */
+button, 
+.btn, 
+.btn-glow,
+input[type="submit"],
+input[type="button"],
+a[class*="btn"] {
+    transition: all 0.3s ease-in-out !important;
+}
+
+/* --- EFEITO GLOW GLOBAL NO HOVER --- */
+/* Aplica o brilho azul TrackFix em qualquer tipo de botão ao passar o cursor */
+button:hover, 
+.btn:hover, 
+.btn-glow:hover,
+input[type="submit"]:hover,
+input[type="button"]:hover,
+a[class*="btn"]:hover {
+    filter: brightness(1.15) !important; /* Deixa a cor interna um pouco mais viva */
+    transform: translateY(-2px) scale(1.03) !important; /* Levanta e expande levemente o botão */
+    box-shadow: 0 0 25px rgba(125, 165, 251, 0.6) !important; /* O brilho neon azul expandido */
+    cursor: pointer;
+}
