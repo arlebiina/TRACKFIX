@@ -51,12 +51,10 @@ body.light.reading-mode {
   --accent: #d97706;
 }
 
-
 /* Opcional: suavizar tudo */
 body.reading-mode {
   filter: sepia(0.2) brightness(0.95);
 }
-
 
 body.light header.nav .brand,
 body.light header.nav .brand .logo,
