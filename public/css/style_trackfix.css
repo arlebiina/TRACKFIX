@@ -1102,3 +1102,25 @@ a[class*="btn"]:hover {
     box-shadow: 0 0 25px rgba(125, 165, 251, 0.6) !important; /* Brilho neon expandido */
     text-shadow: 0 0 5px rgba(125, 165, 251, 0.4);
 }
+
+/* --- CORREÇÃO DAS OPÇÕES INVISÍVEIS DO SELECT --- */
+select option {
+    background-color: #121833 !important; /* Força o fundo escuro (sua variável --surface) */
+    color: #e9edf8 !important;            /* Força o texto a ficar claro (sua variável --text) */
+    padding: 10px;
+}
+
+/* Garante que funcione também nos campos de autenticação e no seletor track */
+.card-auth select option,
+.select-track option,
+.ajuda-v2-group select option {
+    background-color: #1e222d !important; /* Cor exata do fundo dos seus cards de login/perfil */
+    color: #ffffff !important;
+}
+
+/* Estilo para quando o mouse passa por cima de uma opção (em alguns navegadores) */
+select option:hover,
+select option:focus {
+    background-color: #7aa2ff !important; /* Usa o seu azul primário no destaque */
+    color: #0b1020 !important;            /* Texto escuro para dar contraste */
+}
